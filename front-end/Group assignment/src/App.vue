@@ -22,12 +22,12 @@ methods: {
 
 <template>
 
-<h1>Hello</h1>
+<h1>Emotion Corner</h1>
   <Login></Login>
   <div>
-    <button>1</button>
-    <button>2</button>
-    <button>3</button>
+    <button>Positive</button>
+    <button>Negative</button>
+    <button>Secrets</button>
   </div>
 
   <div class="container">
