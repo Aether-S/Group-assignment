@@ -82,7 +82,7 @@ app.get("/accounts/:id", function(request, response){
   })
 })
 
-//create new accounts
+//create new accounts ----NOT WORKING NOW
 app.post("/accounts", function(request, response){
     const account = request.body
     const query = "INSERT INTO accounts (username, password) VALUES (?, ?)"
@@ -96,7 +96,6 @@ app.post("/accounts", function(request, response){
         }
     })
 })
-
 
 
 
