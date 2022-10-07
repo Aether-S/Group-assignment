@@ -1,36 +1,66 @@
 const express = require('express')
 const app = express()
-const sqlite3 = require('sqlite3')
+// middleware function......................
+app.use(express.json())
 
-const db = require('./db.js')
+const sqlite3 = require('sqlite3')
+const db = new sqlite3.Database("my-database.db")
+
+// Enable foreign key constraints.
+db.run("PRAGMA foreign_keys = ON")
+
+// Create the database tables if they don't exist.
+db.run(`
+	CREATE TABLE IF NOT EXISTS accounts (
+		id INTEGER PRIMARY KEY,
+		username TEXT,
+		password TEXT,
+		CONSTRAINT uniqueUsername UNIQUE(username)
+	)
+`)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(3000,function(){
     console.log('api server running at localserver 3000')
 }) 
 
-// app.get("/accounts", function(request, response){
-//   // TODO: You should probably not fetch the password...
-//   const query = "SELECT * FROM accounts ORDER BY username"
-//   db.all(query, function(error, accounts){
-//       if(error){
-//           // If something went wrong, send back status code 500.
-//           response.status(500).end()
-//       }else{
-//           // Otherwise, send back all accounts in JSON format.
-//           response.status(200).json(accounts)
-//       }
-//   })
-// })
 
 app.get("/", function(request, response){
     response.send("Hello, World")
 })
 
-// app.get("/accounts",db.getAllAccounts);
-app.get("/accounts",function(req,res){
-res.send('123')
+//get all accounts............................................................
+app.get("/accounts", function(request, response){
+    // TODO: You should probably not fetch the password...
+    const query = "SELECT * FROM accounts ORDER BY username"
+    db.all(query, function(error, accounts){
+        if(error){
+            // If something went wrong, send back status code 500.
+            response.status(500).end()
+        }else{
+            // Otherwise, send back all accounts in JSON format.
+            response.status(200).json(accounts)
+        }
+    })
 })
-
 
 // Fetching a single account.........
 app.get("/accounts/:id", function(request, response){
@@ -51,6 +81,39 @@ app.get("/accounts/:id", function(request, response){
       }
   })
 })
+
+//create new accounts
+app.post("/accounts", function(request, response){
+    const account = request.body
+    const query = "INSERT INTO accounts (username, password) VALUES (?, ?)"
+    const values = [account.username, account.password]
+    db.run(query, values, function(error){
+        if(error){
+            response.status(500).end()
+        }else{
+            const id = this.lastID
+            response.header("Location", "/accounts/"+id)
+        }
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
