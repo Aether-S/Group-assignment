@@ -5,7 +5,9 @@
                     Show : false,
                     input: {
                     username: "",
-                    password: ""
+                    password: "",
+                    accounts: [],
+				errors: []
                 }
                }
           },
@@ -17,9 +19,20 @@
                 
             }
           },
-
 		mounted(){
-        
+               fetch("http://localhost:3000/accounts").then(response => {
+				
+				if(response.status == 200){
+					
+					response.json().then(accounts => {
+						this.accounts = accounts
+					})
+					
+				}else if(response.status == 500){
+					this.errors.push("Server couldn't send back all accounts")
+				}
+				
+			})
         }
 		
 	}
