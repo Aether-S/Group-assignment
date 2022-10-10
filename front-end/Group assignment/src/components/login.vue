@@ -46,6 +46,7 @@
         <input type="password" name="password" v-model="input.password" />
         <button type="button" v-on:click="login()">Login</button>
         <button type="button" v-on:click="Register()">Register</button>
+        {{accounts}}
 </div>
 </template>
 

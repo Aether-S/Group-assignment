@@ -37,10 +37,20 @@ db.run(`
 
 
 
+// Enable CORS.
+app.use(function(request, response, next){
+	
+	// Allow any client to do anything (not optimal, but should be OK when
+	// credentials passed in the Authorization header, and not cookies).
+	response.setHeader("Access-Control-Allow-Origin", "*")
+	response.setHeader("Access-Control-Allow-Methods", "*")
+	response.setHeader("Access-Control-Allow-Headers", "*")
+	response.setHeader("Access-Control-Expose-Headers", "*")
+	
+	next()
+	
+})
 
-app.listen(3000,function(){
-    console.log('api server running at localserver 3000')
-}) 
 
 
 app.get("/", function(request, response){
@@ -98,6 +108,9 @@ app.post("/accounts", function(request, response){
 })
 
 
+app.listen(3000,function(){
+    console.log('api server running at localserver 3000')
+}) 
 
 
 
@@ -117,17 +130,3 @@ app.post("/accounts", function(request, response){
 
 
 
-
-// Enable CORS.
-app.use(function(request, response, next){
-	
-	// Allow any client to do anything (not optimal, but should be OK when
-	// credentials passed in the Authorization header, and not cookies).
-	response.setHeader("Access-Control-Allow-Origin", "*")
-	response.setHeader("Access-Control-Allow-Methods", "*")
-	response.setHeader("Access-Control-Allow-Headers", "*")
-	response.setHeader("Access-Control-Expose-Headers", "*")
-	
-	next()
-	
-})
