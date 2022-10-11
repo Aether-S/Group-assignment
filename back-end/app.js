@@ -110,6 +110,7 @@ app.post("/accounts", function(request, response){
     })
 })
 
+//verify account...........................................
 app.post('/tokens', function(request, response){
 	
 	const username = request.body.username

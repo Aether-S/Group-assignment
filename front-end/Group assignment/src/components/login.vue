@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode'
           data() {
                return {
                     Show : false,
-                    successMsg: false,
+                    accountHasBeenCreated: false,
                account: {
 				username: "",
 				password: "",
@@ -26,9 +26,6 @@ import jwtDecode from 'jwt-decode'
 
                toggleShow(){
                     this.Show = !this.Show
-               },
-               toggleSuccessMsg(){
-                    this.successMsg = !this.successMsg
                },
 //login / match the account from accounts in the database............................
 handleSubmission(){
@@ -83,12 +80,13 @@ handleSubmission(){
 				
 				if(response.status == 201){
 					this.accountHasBeenCreated = true
-                         toggleSuccessMsg()
+                         
 
 				}else if(response.status == 400){
 					
 					response.json().then(errors => {
 						this.errors = errors
+                              console.log(400)
 					})
 					
 				}else if(response.status == 500){
@@ -128,7 +126,7 @@ handleSubmission(){
         <button type="button" v-on:click="createAccount()">Register</button>
         <nav>{{accounts}}</nav>
         <nav>{{errors}}</nav>
-        <nav @click="toggleSuccessMsg"><p v-show = successMsg >You have created a new account</p></nav>
+        <nav ><p v-show = this.accountHasBeenCreated >You have created a new account</p></nav>
         <nav><p v-show = user.isLoggedIn>You have signed in</p></nav>
 </div>
 </template>
