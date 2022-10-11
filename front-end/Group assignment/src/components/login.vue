@@ -6,10 +6,12 @@ import jwtDecode from 'jwt-decode'
                return {
                     Show : false,
                     accountHasBeenCreated: false,
+//for create account..................                 
                account: {
 				username: "",
 				password: "",
 			},
+//for verify account..................               
                user: {
 				isLoggedIn: false,
 				accessToken: "",
