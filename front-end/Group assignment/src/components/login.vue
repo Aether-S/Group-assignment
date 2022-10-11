@@ -16,6 +16,7 @@ import jwtDecode from 'jwt-decode'
 				username: "",
 				accountId: 0,
 			},
+
                accounts: [],
                errors: []
                
@@ -126,7 +127,9 @@ handleSubmission(){
         <button type="button" @click="handleSubmission">Login</button>
         <button type="button" v-on:click="createAccount()">Register</button>
         <nav>{{accounts}}</nav>
+        <nav>{{errors}}</nav>
         <nav @click="toggleSuccessMsg"><p v-show = successMsg >You have created a new account</p></nav>
+        <nav><p v-show = user.isLoggedIn>You have signed in</p></nav>
 </div>
 </template>
 
