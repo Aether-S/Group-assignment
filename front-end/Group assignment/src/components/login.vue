@@ -3,6 +3,7 @@
           data() {
                return {
                     Show : false,
+                    successMsg: false,
                     account: {
 				username: "",
 				password: "",
@@ -17,7 +18,9 @@
                toggleShow(){
                     this.Show = !this.Show
                },
-
+               toggleSuccessMsg(){
+                    this.successMsg = !this.successMsg
+               },
                createAccount(){
 			
 			fetch("http://localhost:3000/accounts", {
@@ -30,7 +33,7 @@
 				
 				if(response.status == 201){
 					this.accountHasBeenCreated = true
-                         alert("You have created a new account")
+                         toggleSuccessMsg()
 
 				}else if(response.status == 400){
 					
@@ -74,6 +77,7 @@
         <button type="button" v-on:click="login()">Login</button>
         <button type="button" v-on:click="createAccount()">Register</button>
         <nav>{{accounts}}</nav>
+        <nav @click="toggleSuccessMsg"><p v-show = successMsg >You have created a new account</p></nav>
 </div>
 </template>
 
