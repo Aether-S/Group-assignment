@@ -3,7 +3,6 @@
           data() {
                return {
                     Show : false,
-
                     account: {
 				username: "",
 				password: "",
@@ -31,6 +30,8 @@
 				
 				if(response.status == 201){
 					this.accountHasBeenCreated = true
+                         alert("You have created a new account")
+
 				}else if(response.status == 400){
 					
 					response.json().then(errors => {
@@ -46,6 +47,7 @@
 		}
           },
 		mounted(){
+
                fetch("http://localhost:3000/accounts").then(response => {
 				
 				if(response.status == 200){
@@ -53,7 +55,6 @@
 					response.json().then(accounts => {
 						this.accounts = accounts
 					})
-					
 				}else if(response.status == 500){
 					this.errors.push("Server couldn't send back all accounts")
 				}
@@ -68,11 +69,11 @@
 <button @click="toggleShow">login</button> 
 
 <div v-show = Show>
-        <input type="text" name="username" v-model="account.username" />
-        <input type="password" name="password" v-model="account.password" />
+        <nav>username:<input type="text" name="username" v-model="account.username" /></nav>
+        <nav>password:<input type="password" name="password" v-model="account.password" /></nav> 
         <button type="button" v-on:click="login()">Login</button>
         <button type="button" v-on:click="createAccount()">Register</button>
-        {{accounts}}
+        <nav>{{accounts}}</nav>
 </div>
 </template>
 
@@ -85,4 +86,5 @@
         margin-top: 200px;
         padding: 20px;
     }
+
 </style>
