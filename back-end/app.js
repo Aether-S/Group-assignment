@@ -3,6 +3,9 @@ const app = express()
 // middleware function......................
 app.use(express.json())
 
+const jsonwebtoken = require('jsonwebtoken')
+
+
 const sqlite3 = require('sqlite3')
 const db = new sqlite3.Database("my-database.db")
 
@@ -106,6 +109,43 @@ app.post("/accounts", function(request, response){
         }
     })
 })
+
+app.post('/tokens', function(request, response){
+	
+	const username = request.body.username
+	const password = request.body.password
+	
+	const query = "SELECT * FROM accounts WHERE username = ? AND password = ?"
+	const values = [username, password]
+	
+	db.get(query, values, function(error, account){
+		if(error){
+			console.log(error)
+			response.status(500).end()
+		}else if(account){
+			// Successful login!
+			
+			const accessToken = jsonwebtoken.sign({
+				accountId: account.id,
+			}, "oiuiuytrtefxfx")
+			
+			const idToken = jsonwebtoken.sign({
+				accountId: account.id,
+				username: account.username,
+			}, "lkjlkj")
+			
+			response.status(200).json({
+				accessToken,
+				idToken
+			})
+			
+		}else{
+			response.status(400).json(["wrongCredentials"])
+		}
+	})
+	
+})
+
 
 
 app.listen(3000,function(){
