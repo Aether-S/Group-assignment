@@ -60,6 +60,7 @@ app.get("/", function(request, response){
     response.send("Hello, World")
 })
 
+
 //get all accounts............................................................
 app.get("/accounts", function(request, response){
     // TODO: You should probably not fetch the password...
@@ -95,7 +96,7 @@ app.get("/accounts/:id", function(request, response){
   })
 })
 
-//create new accounts 
+//create new accounts................................... 
 app.post("/accounts", function(request, response){
     const account = request.body
     const query = "INSERT INTO accounts (username, password) VALUES (?, ?)"

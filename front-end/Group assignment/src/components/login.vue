@@ -4,21 +4,16 @@ import jwtDecode from 'jwt-decode'
 	export default {
           data() {
                return {
-                    Show : false,
-                    accountHasBeenCreated: false,
-//for create account..................                 
+                Show : false,
+                accountHasBeenCreated: false,
+//for create, match and verify the account ..................                 
                account: {
+				isLoggedIn: false,
+				accountId: 0,
 				username: "",
 				password: "",
-			},
-//for verify account..................               
-               user: {
-				isLoggedIn: false,
 				accessToken: "",
-				username: "",
-				accountId: 0,
 			},
-
                accounts: [],
                errors: []
                
@@ -49,15 +44,16 @@ handleSubmission(){
 					
 					response.json().then(body => {
 						
-						this.user.isLoggedIn = true
-						this.user.accessToken = body.accessToken
+						this.account.isLoggedIn = true
+						this.account.accessToken = body.accessToken
 						
 						const info = jwtDecode(body.idToken)
 						
 						// this.user.accountId = info.accountId
 						// this.user.username = info.username
-                              alert("Login in successfully")
-						console.log(this.user.accessToken)
+                           
+							
+						    console.log(this.account.accessToken)
 					})
 					
 				}else if(response.status == 400){
@@ -97,7 +93,14 @@ handleSubmission(){
 				
 			})
 			
+		},
+//Sign out the account.............................................
+		signOut(){
+			this.account.isLoggedIn = false;
+			console.log(this.account.username)
 		}
+
+
           },
 		mounted(){
 //get all accounts......................................................................
@@ -113,27 +116,37 @@ handleSubmission(){
 				}
 				
 			})
+		
+
+
         }
 		
+
+    
+  
 	}
 </script>
 
 <template>
-<button @click="toggleShow">login</button> 
-
-<div v-show = Show>
-        <nav>username:<input type="text" name="username" v-model="account.username" /></nav>
-        <nav>password:<input type="password" name="password" v-model="account.password" /></nav> 
+<button v-show = !account.isLoggedIn @click="toggleShow">login</button> 
+<button v-show = account.isLoggedIn @click="signOut()">Log out</button>
+<div v-show = Show&&!account.isLoggedIn>
+        <nav><input type="text" placeholder="username" v-model="account.username" /></nav>
+        <nav><input type="password" placeholder="password" v-model="account.password" /></nav> 
         <button type="button" @click="handleSubmission">Login</button>
         <button type="button" v-on:click="createAccount()">Register</button>
-        <nav>{{accounts}}</nav>
+        <nav v-for="acc in accounts">
+			{{acc}}
+		</nav>
         <nav>{{errors}}</nav>
-        <nav ><p v-show = this.accountHasBeenCreated >You have created a new account</p></nav>
-        <nav><p v-show = user.isLoggedIn>You have signed in</p></nav>
+        <nav ><p v-show = accountHasBeenCreated >You have created a new account</p></nav>       
 </div>
+<nav><p v-show = account.isLoggedIn>You have signed in as {{account.username}}</p></nav>
+
 </template>
 
 <style scoped>
+
 #login {
         width: 500px;
         border: 1px solid #CCCCCC;
