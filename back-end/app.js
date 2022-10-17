@@ -103,10 +103,12 @@ app.post("/accounts", function(request, response){
     const values = [account.username, account.password]
     db.run(query, values, function(error){
         if(error){
+            console.log(error)
             response.status(500).end()
         }else{
             const id = this.lastID
             response.header("Location", "/accounts/"+id)
+            response.status(201).end()
         }
     })
 })

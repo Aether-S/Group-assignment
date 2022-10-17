@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode'
 	export default {
           data() {
                return {
+				
                 Show : false,
                 accountHasBeenCreated: false,
 //for create, match and verify the account ..................                 
@@ -49,10 +50,10 @@ handleSubmission(){
 						
 						const info = jwtDecode(body.idToken)
 						
-						// this.user.accountId = info.accountId
-						// this.user.username = info.username
+						this.account.id = info.accountId
+						this.account.username = info.username
                            
-							
+							console.log(body.idToken)
 						    console.log(this.account.accessToken)
 					})
 					
@@ -141,7 +142,8 @@ handleSubmission(){
         <nav>{{errors}}</nav>
         <nav ><p v-show = accountHasBeenCreated >You have created a new account</p></nav>       
 </div>
-<nav><p v-show = account.isLoggedIn>You have signed in as {{account.username}}</p></nav>
+<nav><p v-show = account.isLoggedIn>You have signed in as {{account.username}}{{account.id}}</p></nav>
+{{account.accessToken}}
 
 </template>
 
