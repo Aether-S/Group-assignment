@@ -2,6 +2,9 @@
 import jwtDecode from 'jwt-decode'
 
 	export default {
+		props: {
+		    
+	},
           data() {
                return {
 				
@@ -15,6 +18,7 @@ import jwtDecode from 'jwt-decode'
 				password: "",
 				accessToken: "",
 			},
+			   
                accounts: [],
                errors: []
                
@@ -50,7 +54,7 @@ handleSubmission(){
 						
 						const info = jwtDecode(body.idToken)
 						
-						this.account.id = info.accountId
+						this.account.accountId = info.accountId
 						this.account.username = info.username
                            
 							console.log(body.idToken)
@@ -142,7 +146,7 @@ handleSubmission(){
         <nav>{{errors}}</nav>
         <nav ><p v-show = accountHasBeenCreated >You have created a new account</p></nav>       
 </div>
-<nav><p v-show = account.isLoggedIn>You have signed in as {{account.username}}{{account.id}}</p></nav>
+<nav><p v-show = account.isLoggedIn>You have signed in as {{account.username}}{{account.accountId}}</p></nav>
 {{account.accessToken}}
 
 </template>

@@ -24,26 +24,19 @@ methods: {
 
 <h1>Emotion Corner</h1>
   <Login></Login>
+
   <div>
-    <button>Positive</button>
-    <button>Negative</button>
-    <button>Secrets</button>
+    <button><RouterLink to="/positive">Positive</RouterLink></button>
+    <button><RouterLink to="/negative">Negative</RouterLink></button>
+    <button><RouterLink to="/secrets">Secret</RouterLink></button>
   </div>
 
-  <div class="container">
-
-  <div class="card">
-    <div class="box">
-      <div class="content">
-        <h3>Card One</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, totam velit? Iure nemo labore inventore?</p>
-        <a href="#">Thumbs : {{thumbs}}</a>
-      </div>
-    </div>
-  </div>
+  
 
 
-  </div>
+
+<router-view></router-view>
+
 
 </template>
 
@@ -54,22 +47,6 @@ methods: {
 }
 
 
-.card{
-  border-radius: 25px;
-  background-color: darkblue;
-width: 906px;
-height: 150px;
-}
-
-.box{
-  height: 150px;
-margin-top: 50px;
-}
-
-h3{
-  text-align: left;
-  margin-left: 50px;
-}
 
 
 </style>
