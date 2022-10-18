@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode'
 
 	export default {
 		props: {
-		    
+		account: Object,
 	},
           data() {
                return {
@@ -11,13 +11,13 @@ import jwtDecode from 'jwt-decode'
                 Show : false,
                 accountHasBeenCreated: false,
 //for create, match and verify the account ..................                 
-               account: {
-				isLoggedIn: false,
-				accountId: 0,
-				username: "",
-				password: "",
-				accessToken: "",
-			},
+            //    account: {
+			// 	isLoggedIn: false,
+			// 	accountId: 0,
+			// 	username: "",
+			// 	password: "",
+			// 	accessToken: "",
+			// },
 			   
                accounts: [],
                errors: []
@@ -146,8 +146,8 @@ handleSubmission(){
         <nav>{{errors}}</nav>
         <nav ><p v-show = accountHasBeenCreated >You have created a new account</p></nav>       
 </div>
-<nav><p v-show = account.isLoggedIn>You have signed in as {{account.username}}{{account.accountId}}</p></nav>
-{{account.accessToken}}
+<!-- <nav><p v-show = account.isLoggedIn>You have signed in as {{account.username}}{{account.accountId}}</p></nav>
+{{account.accessToken}} -->
 
 </template>
 

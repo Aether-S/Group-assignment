@@ -22,7 +22,11 @@ db.run(`
 	)
 `)
 
-
+db.run(`CREATE TABLE IF NOT EXISTS posts (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	postContent TEXT,
+	accountId INTEGER
+)`)
 
 
 
@@ -131,7 +135,7 @@ app.post('/tokens', function(request, response){
 			
 			const accessToken = jsonwebtoken.sign({
 				accountId: account.id,
-			}, "oiuiuytrtefxfx")
+			}, "qwertyuiop")
 			
 			const idToken = jsonwebtoken.sign({
 				accountId: account.id,
@@ -146,6 +150,71 @@ app.post('/tokens', function(request, response){
 		}else{
 			response.status(400).json(["wrongCredentials"])
 		}
+	})
+	
+})
+
+
+
+app.post('/newPosts', function(request, response){
+	
+	const accessToken = request.get("Authorization")
+	
+	const payload = jsonwebtoken.verify(accessToken, "qwertyuiop")
+	
+	const postContent = request.body.postContent
+	const accountId = request.body.accountId
+	
+	// Send back 401 if the user tries to create an ad for
+	// another account than the one he is logged in on.
+	if(accountId != payload.accountId){
+		response.status(401).end()
+		return
+	}
+	
+	// Do validation.
+	const errorCodes = []
+	
+	
+	if(postContent.length < 0){
+		errorCodes.push("invalid post content")
+	}
+	
+	// If we have validation errors, send them back,
+	// otherwise insert the ad into the database.
+	if(0 < errorCodes.length){
+		response.status(400).json(errorCodes)
+	}else{
+		
+		const query = "INSERT INTO posts (postContent, accountId) VALUES (?, ?)"
+		const values = [postContent, accountId]
+		
+		db.run(query, values, function(error){
+			if(error){
+				response.status(500).end()
+			}else{
+				response.status(201).end()
+			}
+		})
+		
+	}
+	
+})
+
+
+app.get("/posts", function(request, response){
+	
+	const query = "SELECT * FROM posts"
+	
+	db.all(query, function(error, posts){
+		
+		if(error){
+			console.log(error)
+			response.status(500).end()
+		}else{
+			response.status(200).json(posts)
+		}
+		
 	})
 	
 })

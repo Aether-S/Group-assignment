@@ -10,6 +10,7 @@ const router = createRouter({
 		{path: '/positive', component: Positive},
 		{path: '/negative', component: Negative},
 		{path: '/secrets', component: Secrets},
+		{path: '/Login', component: Login}
 	],
 })
 
